@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @keyframes rotate {
+            0% {
+                transform: rotate(0deg)
+            }
+
+            25% {
+                transform: rotate(90deg)
+            }
+
+            50% {
+                transform: rotate(180deg)
+            }
+
+            75% {
+                transform: rotate(270deg)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
+        }
+        
+        @keyframes growBorder {
+            100% {
+                top: -20px;
+                left: 10px;
+                right: 10px;
+                bottom: 40px;
+                border-color: transparent;
+                border-width: 0;
+            }
+        }
+        
+        @keyframes rotate2{
+            100%{
+                transform:rotate(405deg);
+            }
+        }
+
+        * {
+            background-color: white;
+        }
+
+        body {
+            font-family:arial;
+            font-size:.8rem;
+            margin: 0;
+            background-color: black;
+            width: 100%;
+            height: 100vh;
+            text-align: center;
+            display: grid;
+            place-items: center;
+            z-index: 2;
+        }
+
+        .circle {
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: relative;
+            z-index: 5;
+        }
+
+        .circle:after {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: -20px;
+            width: 140px;
+            height: 140px;
+            background-image: conic-gradient(transparent 75%, aqua 75%);
+            z-index: 4;
+            animation: rotate 2s linear infinite;
+        }
+
+        .circle span {
+            position: absolute;
+            inset: 3px;
+            border-radius: 50%;
+            z-index: 5;
+            box-shadow:0 0 40px 5px black; 
+        }
+
+        .irmao {
+            border-radius: 50%;
+            position: absolute;
+            top: calc(50% - 30px);
+            left: calc(50% - 30px);
+            background-color: black;
+            border: 10px solid hsl(0deg, 0%, 80%);
+            top: 45px;
+            left: 80px;
+            right: 80px;
+            bottom: 115px;
+            z-index: 3;
+        }
+        .irmao:hover {
+            animation: growBorder 1s linear infinite;
+        }
+
+
+        .dad {
+            display: grid;
+            place-items: center;
+            height: 240px;
+            width: 240px;
+            position: relative;
+            background-color: black;
+            border-radius:50%; 
+        }
+        .dad:before{
+            content:'';
+            top:-40px;
+            bottom:500px;
+            left:0;            
+            width:240px;
+            height:240px;
+            border-radius: 50%;            
+            background-color:black;
+            position:absolute;
+            z-index:2;
+        }
+        .dad:after{
+            content:'';
+            position:absolute;
+            top:-50px;
+            height:260px;
+            width:10px;
+            transform:rotate(45deg);
+            z-index:1;
+            background-color:aqua;
+            animation:rotate2 4s linear infinite;
+        }
+        
+        
+        h1{
+            position:absolute;
+            top:75%;
+            left:50%;
+            transform: translateX(-50%);
+            color:white;
+            background-color:black;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="dad">
+        <div class="circle"><span></span></div>
+        <div class="extern"></div>        
+    </div>
+    <h1></h1>
+    <script>
+        var borderItem = document.querySelector('.irmao');
+        var circle = document.querySelector('.circle');
+        var dad = document.querySelector('.dad');
+        var title = document.querySelector('h1');
+        var irmao = document.createElement('div')
+        irmao.className = 'irmao';
+        
+        circle.addEventListener('click', insertBorderPropagation)
+        
+        function insertBorderPropagation(){
+            dad.appendChild(irmao);
+            irmao.style.animation = 'growBorder .5s linear';
+        }
+        
+        let arr = ['Loading.','Loading..','Loading...']
+        
+        setInterval(changeTitle,500)
+        
+        let x = 0;
+        function changeTitle(){
+            let y = x % arr.length;
+            title.innerHTML = arr[y];
+            x++
+        }
+        
+    </script>
+
+</body>
+
+</html>
